@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -12,7 +14,7 @@ import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Restaurant.RestaurantModelListener {
 
 
     private Restaurant mRestaurant;
@@ -33,25 +35,18 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayAdapter<Table> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mRestaurant.getTables());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
 
 
 
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,5 +68,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void dataDidLoad() {
+        String a = "Alejandro";
     }
 }

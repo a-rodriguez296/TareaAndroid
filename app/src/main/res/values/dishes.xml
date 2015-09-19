@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dishes_array">
+        <item>Plato 1</item>
+        <item>Plato 2</item>
+        <item>Plato 3</item>
+        <item>Plato 4</item>
+    </string-array>
+</resources>

@@ -2,7 +2,9 @@ package arf.com.restaurant.model;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Handler;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import arf.com.restaurant.R;
@@ -11,6 +13,8 @@ import arf.com.restaurant.R;
  * Created by arodriguez on 9/19/15.
  */
 public class Restaurant {
+
+    private WeakReference<RestaurantModelListener> mModelListener;
 
     private ArrayList<Table> mTables;
 
@@ -35,9 +39,60 @@ public class Restaurant {
     private Restaurant(Context context) {
 
 
+        mModelListener = new WeakReference<RestaurantModelListener>((RestaurantModelListener) context);
+
         //Acá es donde se deben cargar tanto las mesas como los platos
 
         //Mesas
+        initTables(context);
+
+        //Platos
+        initDishes(context);
+
+
+        Handler delayHandler = new Handler();
+        delayHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (mModelListener.get() != null) {
+                    mModelListener.get().dataDidLoad();
+                }
+
+            }
+        }, 2500);
+
+
+
+/*        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.google.com", new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                // called before request is started
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // called when response HTTP status is "200 OK"
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
+                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });*/
+
+
+    }
+
+    private void initTables(Context context) {
+
         Resources res = context.getResources();
         String[] tables = res.getStringArray(R.array.tables_array);
 
@@ -49,6 +104,22 @@ public class Restaurant {
             Table mTable = new Table(tableName);
             mTables.add(mTable);
         }
+
+    }
+
+    private void initDishes(Context context) {
+
+        Resources res = context.getResources();
+        String[] dishes = res.getStringArray(R.array.dishes_array);
+
+        //Inicialización Array Platos
+        mDishes = new ArrayList<>();
+
+        for (String dishName :
+                dishes) {
+            Dish mDish = new Dish(dishName, "dishImage", true, 123.123);
+            mDishes.add(mDish);
+        }
     }
 
 
@@ -59,5 +130,13 @@ public class Restaurant {
     public ArrayList<Dish> getDishes() {
         return mDishes;
     }
+
+
+    //Listener
+    public interface RestaurantModelListener {
+
+        void dataDidLoad();
+    }
+
 
 }
