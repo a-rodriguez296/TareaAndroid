@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,6 +26,9 @@ import static com.android.volley.Response.*;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
         //Cargar XML de resources
         Resources res = getResources();
         String[] tables = res.getStringArray(R.array.tables_array);
+
+        ListView listView = (ListView) findViewById(android.R.id.list);
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tables);
+        listView.setAdapter(adapter);
+
+
+
 
 
     }
