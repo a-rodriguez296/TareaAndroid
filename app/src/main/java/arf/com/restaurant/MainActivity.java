@@ -8,10 +8,14 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import arf.com.restaurant.model.Restaurant;
+import arf.com.restaurant.model.Table;
+
 
 public class MainActivity extends AppCompatActivity {
 
 
+    private Restaurant mRestaurant;
 
 
     @Override
@@ -20,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        //Cargar XML de resources
-        Resources res = getResources();
-        String[] tables = res.getStringArray(R.array.tables_array);
+        //Inicializar el modelo
+        mRestaurant = Restaurant.getInstance(this);
+
 
         ListView listView = (ListView) findViewById(android.R.id.list);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tables);
+        ArrayAdapter<Table> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mRestaurant.getTables());
         listView.setAdapter(adapter);
 
 

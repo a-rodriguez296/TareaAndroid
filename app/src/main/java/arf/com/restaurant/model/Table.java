@@ -7,22 +7,26 @@ import java.util.ArrayList;
  */
 public class Table {
 
-    private String tableName;
+    private String mTableName;
 
     private ArrayList<Dish> mOrderedDishes;
 
 
     public Table(String tableName) {
-        this.tableName = tableName;
+        this.mTableName = tableName;
 
     }
 
+    @Override
+    public String toString() {
+        return mTableName;
+    }
 
     public String getTableName() {
-        return tableName;
+        return mTableName;
     }
 
     public void setTableName(String tableName) {
-        this.tableName = tableName;
+        this.mTableName = tableName;
     }
 }
