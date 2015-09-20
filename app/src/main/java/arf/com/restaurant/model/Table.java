@@ -33,4 +33,10 @@ public class Table implements Serializable {
     public ArrayList<Dish> getOrderedDishes() {
         return mOrderedDishes;
     }
+
+    public void addDish(Dish dish) {
+        mOrderedDishes.add(dish);
+    }
+
+
 }

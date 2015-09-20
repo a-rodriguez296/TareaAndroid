@@ -1,6 +1,7 @@
 package arf.com.restaurant;
 
 import android.app.Fragment;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import arf.com.restaurant.broadcastReceivers.TableBroadcastReceiver;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
@@ -26,6 +28,8 @@ public class DishListFragment extends Fragment {
 
     private Table mParentTable;
     private ArrayList<Dish> mDishes;
+
+    private TableBroadcastReceiver mBroadcastReceiver;
 
 
     public static DishListFragment newInstance(Table selectedTable) {
@@ -55,10 +59,20 @@ public class DishListFragment extends Fragment {
             ListView listView = (ListView) root.findViewById(android.R.id.list);
             listView.setAdapter(adapter);
 
+            //Creación del Broadcast receiver
+            mBroadcastReceiver = new TableBroadcastReceiver(adapter);
+            getActivity().
+                    registerReceiver(mBroadcastReceiver,
+                            new IntentFilter(Restaurant.TABLE_CHANGED_ACTION));
+
         }
-
-
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(mBroadcastReceiver);
 
     }
 }

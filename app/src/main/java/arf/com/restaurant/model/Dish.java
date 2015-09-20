@@ -13,11 +13,14 @@ public class Dish implements Serializable {
 
     private double mPrice;
 
-    public Dish(String name, String image, Boolean containsAlergens, double price) {
+    private String mComments;
+
+    public Dish(String name, String image, Boolean containsAlergens, double price, String comments) {
         mName = name;
         mImage = image;
         mContainsAlergens = containsAlergens;
         mPrice = price;
+        mComments = comments;
     }
 
 

@@ -1,6 +1,7 @@
 package arf.com.restaurant.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
 
@@ -14,6 +15,11 @@ import arf.com.restaurant.R;
  */
 public class Restaurant {
 
+    private static final String SYNCHRONIZED_KEY = "Restaurant.SYNCHRONIZED_KEY";
+
+    public static final String TABLE_CHANGED_ACTION = "Restaurant.TABLE_CHANGED_ACTION";
+
+
     private WeakReference<RestaurantModelListener> mModelListener;
 
     private ArrayList<Table> mTables;
@@ -22,13 +28,21 @@ public class Restaurant {
 
     private static Restaurant mInstance;
 
+    private WeakReference<Context> mContext;
+
 
     //Singleton para obtener una instancia del Restaurante con toda su info asociada
     public static Restaurant getInstance(Context context) {
 
 
-        if (mInstance == null) {
-            mInstance = new Restaurant(context);
+        if (mInstance == null || mInstance.mContext.get() == null) {
+            synchronized (SYNCHRONIZED_KEY) {
+                if (mInstance == null) {
+                    mInstance = new Restaurant(context);
+                } else if (mInstance.mContext.get() == null) {
+                    mInstance.mContext = new WeakReference<Context>(context);
+                }
+            }
         }
 
         return mInstance;
@@ -38,6 +52,7 @@ public class Restaurant {
     //Constructor del Restaurante
     private Restaurant(Context context) {
 
+        mContext = new WeakReference<Context>(context);
 
         mModelListener = new WeakReference<RestaurantModelListener>((RestaurantModelListener) context);
 
@@ -117,7 +132,7 @@ public class Restaurant {
 
         for (String dishName :
                 dishes) {
-            Dish mDish = new Dish(dishName, "dishImage", true, 123.123);
+            Dish mDish = new Dish(dishName, "dishImage", true, 123.123, "");
             mDishes.add(mDish);
         }
     }
@@ -129,6 +144,28 @@ public class Restaurant {
 
     public ArrayList<Dish> getDishes() {
         return mDishes;
+    }
+
+
+    public void addDishToTable(Table table, String name, String image, Boolean containsAlergens, double price, String comments) {
+
+        Dish newDish = new Dish(name, image, containsAlergens, price, comments);
+        table.addDish(newDish);
+
+
+        //Mandar el broadcast
+        sendBroadcastTableModelChange();
+
+    }
+
+
+    public void sendBroadcastTableModelChange() {
+
+        if (mContext != null) {
+            Intent broadcast = new Intent(TABLE_CHANGED_ACTION);
+            mContext.get().sendBroadcast(broadcast);
+        }
+
     }
 
 
