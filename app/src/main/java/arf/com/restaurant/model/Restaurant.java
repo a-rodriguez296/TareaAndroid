@@ -151,10 +151,13 @@ public class Restaurant {
     }
 
 
-    public void addDishToTable(Table table, String name, String image, Boolean containsAlergens, double price, String comments) {
+    public void addDishToTable(Table currentTable, Dish dish, String comments) {
 
-        /*Dish newDish = new Dish(name, image, containsAlergens, price, comments);
-        table.addDish(newDish);*/
+        Dish createdDish = Dish.copyDish(dish, comments);
+
+
+        /*Dish newDish = new Dish(name, image, containsAlergens, price, comments);*/
+        currentTable.addDish(createdDish);
 
 
         //Mandar el broadcast

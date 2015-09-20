@@ -24,6 +24,10 @@ public class Dish implements Serializable {
         mComments = comments;
     }
 
+    public static Dish copyDish(Dish dish, String comments) {
+        return new Dish(dish.getName(), dish.getImage(), dish.getAlergens(), dish.getPrice(), comments);
+    }
+
 
     @Override
     public String toString() {
@@ -51,6 +55,11 @@ public class Dish implements Serializable {
     public String getComments() {
         return mComments;
     }
+
+    public String getNormalizedAlergens() {
+        return getAlergens().toString();
+    }
+
 
     public Dish() {
         super();

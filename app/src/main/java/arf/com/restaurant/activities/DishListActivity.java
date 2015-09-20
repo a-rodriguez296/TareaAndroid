@@ -1,6 +1,10 @@
 package arf.com.restaurant.activities;
 
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +14,7 @@ import arf.com.restaurant.R;
 import arf.com.restaurant.fragments.AddDishDialogFragment;
 import arf.com.restaurant.fragments.DishListFragment;
 import arf.com.restaurant.model.Dish;
+import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
 
 /**
@@ -20,8 +25,11 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
     public static final String TABLE_ARGUMENT = "DishListActivity.TABLE_ARGUMENT";
 
-    private Button mAddDishButton;
+    private BroadcastReceiver mBroadcastReceiver;
+    private AddDishDialogFragment mDialog;
 
+    private Button mAddDishButton;
+    private Table mTable;
 
 
     @Override
@@ -29,13 +37,13 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_list);
 
-        final Table selectedTable = (Table) getIntent().getSerializableExtra(TABLE_ARGUMENT);
+        mTable = (Table) getIntent().getSerializableExtra(TABLE_ARGUMENT);
 
 
         FragmentManager fm = getFragmentManager();
         if (fm.findFragmentById(R.id.fragment_dish_list) == null) {
             fm.beginTransaction()
-                    .add(R.id.fragment_dish_list, DishListFragment.newInstance(selectedTable))
+                    .add(R.id.fragment_dish_list, DishListFragment.newInstance(mTable))
                     .commit();
         }
 
@@ -46,16 +54,42 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
                 @Override
                 public void onClick(View view) {
                     //Restaurant.getInstance(DishListActivity.this).addDishToTable(selectedTable, "Plato", "image", true, 123.123, "");
-                    AddDishDialogFragment dialog = new AddDishDialogFragment();
-                    dialog.show(getFragmentManager(), null);
+                    mDialog = new AddDishDialogFragment();
+                    mDialog.show(getFragmentManager(), null);
                 }
             });
         }
+
+
+        mBroadcastReceiver = new DialogBroadcastReceiver();
+        registerReceiver(mBroadcastReceiver, new IntentFilter(AddDishDialogFragment.ADDED_DISH_BROADCAST_INDENTIFIER));
     }
 
     @Override
-    public void dishAdded(Dish dish) {
-        String a = "Alejandro";
-        String b = a + "Pedro";
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
+    }
+
+    @Override
+    public void dishAdded(Dish dish, String comments) {
+
+        Restaurant.getInstance(this).addDishToTable(mTable, dish, comments);
+    }
+
+
+    //Solución con broadcast
+    private class DialogBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Dish dish = (Dish) intent.getSerializableExtra(AddDishDialogFragment.DISH);
+            String comments = intent.getStringExtra(AddDishDialogFragment.COMMENTS);
+            DishListActivity.this.dishAdded(dish, comments);
+
+            mDialog.dismiss();
+
+        }
     }
 }

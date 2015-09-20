@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,12 @@ import arf.com.restaurant.model.Restaurant;
  * Created by arodriguez on 9/19/15.
  */
 public class AddDishDialogFragment extends DialogFragment {
+
+    public static final String ADDED_DISH_BROADCAST_INDENTIFIER = "AddDishDialogFragment.ADDED_DISH_BROADCAST_INDENTIFIER";
+
+    public static final String DISH = "AddDishDialogFragment.DISH";
+
+    public static final String COMMENTS = "AddDishDialogFragment.COMMENTS";
 
     private DishListener mDishListener;
 
@@ -104,7 +112,21 @@ public class AddDishDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (mDishListener != null) {
-                    mDishListener.dishAdded(mCurrentDish);
+//                    if (mComments.getText()!= null){
+//                        mDishListener.dishAdded(mCurrentDish, mComments.getText().toString());
+//                    }
+//                    else{
+//                        mDishListener.dishAdded(mCurrentDish,"");
+//                    }
+
+
+                    //Solución con broadcast pq listener no me funciona
+                    Intent broadcast = new Intent(ADDED_DISH_BROADCAST_INDENTIFIER);
+                    broadcast.putExtra(DISH, mCurrentDish);
+                    broadcast.putExtra(COMMENTS, mComments.getText().toString());
+                    getActivity().sendBroadcast(broadcast);
+
+
                 }
 
 
@@ -133,6 +155,8 @@ public class AddDishDialogFragment extends DialogFragment {
 
     public interface DishListener {
 
-        void dishAdded(Dish dish);
+        void dishAdded(Dish dish, String comments);
     }
+
+
 }
