@@ -26,6 +26,10 @@
             android:name=".activities.DishDetailActivity"
             android:label="Detalle">
         </activity>
+        <activity
+            android:name=".activities.DishDetailPagerActivity"
+            android:label="Detalle">
+        </activity>
     </application>
 
 </manifest>
