@@ -112,21 +112,11 @@ public class AddDishDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (mDishListener != null) {
-//                    if (mComments.getText()!= null){
-//                        mDishListener.dishAdded(mCurrentDish, mComments.getText().toString());
-//                    }
-//                    else{
-//                        mDishListener.dishAdded(mCurrentDish,"");
-//                    }
-
-
-                    //Solución con broadcast pq listener no me funciona
-                    Intent broadcast = new Intent(ADDED_DISH_BROADCAST_INDENTIFIER);
-                    broadcast.putExtra(DISH, mCurrentDish);
-                    broadcast.putExtra(COMMENTS, mComments.getText().toString());
-                    getActivity().sendBroadcast(broadcast);
-
-
+                    if (mComments.getText() != null) {
+                        mDishListener.dishAdded(mCurrentDish, mComments.getText().toString());
+                    } else {
+                        mDishListener.dishAdded(mCurrentDish, "");
+                    }
                 }
 
 

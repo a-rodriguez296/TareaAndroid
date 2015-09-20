@@ -1,5 +1,7 @@
 package arf.com.restaurant.model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -57,7 +59,7 @@ public class Dish implements Serializable {
     }
 
     public String getNormalizedAlergens() {
-        return getAlergens().toString();
+        return TextUtils.join(", ", getAlergens());
     }
 
 

@@ -2,9 +2,6 @@ package arf.com.restaurant.activities;
 
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -25,7 +22,6 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
     public static final String TABLE_ARGUMENT = "DishListActivity.TABLE_ARGUMENT";
 
-    private BroadcastReceiver mBroadcastReceiver;
     private AddDishDialogFragment mDialog;
 
     private Button mAddDishButton;
@@ -59,37 +55,12 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
                 }
             });
         }
-
-
-        mBroadcastReceiver = new DialogBroadcastReceiver();
-        registerReceiver(mBroadcastReceiver, new IntentFilter(AddDishDialogFragment.ADDED_DISH_BROADCAST_INDENTIFIER));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
     public void dishAdded(Dish dish, String comments) {
 
         Restaurant.getInstance(this).addDishToTable(mTable, dish, comments);
-    }
-
-
-    //Solución con broadcast
-    private class DialogBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Dish dish = (Dish) intent.getSerializableExtra(AddDishDialogFragment.DISH);
-            String comments = intent.getStringExtra(AddDishDialogFragment.COMMENTS);
-            DishListActivity.this.dishAdded(dish, comments);
-
-            mDialog.dismiss();
-
-        }
+        mDialog.dismiss();
     }
 }

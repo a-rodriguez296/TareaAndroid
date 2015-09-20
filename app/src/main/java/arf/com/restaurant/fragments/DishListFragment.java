@@ -1,18 +1,22 @@
 package arf.com.restaurant.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import arf.com.restaurant.R;
+import arf.com.restaurant.activities.DishDetailActivity;
 import arf.com.restaurant.broadcastReceivers.TableBroadcastReceiver;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;
@@ -56,9 +60,32 @@ public class DishListFragment extends Fragment {
             mParentTable = (Table) getArguments().getSerializable(ARG_SELECTED_TABLE);
 
             mDishes = mParentTable.getOrderedDishes();
-            ArrayAdapter<Dish> adapter = new ArrayAdapter<Dish>(getActivity(), android.R.layout.simple_list_item_1, mDishes);
+            final ArrayAdapter<Dish> adapter = new ArrayAdapter<Dish>(getActivity(), android.R.layout.simple_list_item_1, mDishes);
             ListView listView = (ListView) root.findViewById(android.R.id.list);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+
+
+                    /*if (R.id.dish_detail != null){
+
+                        //Caso split screen
+
+                        FragmentManager fm = getFragmentManager();
+                        DishDetailFragment detailFragment = fm.findFragmentById(R.id.dish_detail);
+                        detailFragment.goToDish(index);
+
+                    }*/
+                    if (true) {
+                        Intent dishDetailIntent = new Intent(getActivity(), DishDetailActivity.class);
+                        dishDetailIntent.putExtra(DishDetailActivity.EXTRA_DISH, adapter.getItem(index));
+                        startActivity(dishDetailIntent);
+                    }
+
+
+                }
+            });
 
             //Creación del Broadcast receiver
             mBroadcastReceiver = new TableBroadcastReceiver(adapter);

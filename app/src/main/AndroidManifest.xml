@@ -21,7 +21,10 @@
         <activity
             android:name=".activities.DishListActivity"
             android:label="Platos">
-
+        </activity>
+        <activity
+            android:name=".activities.DishDetailActivity"
+            android:label="Detalle">
         </activity>
     </application>
 

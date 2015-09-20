@@ -8,7 +8,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="35dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/alergers_list"
-        />
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,7 +63,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/comments"
-        android:id="@+id/textView6"/>
+        android:id="@+id/textView6"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,7 +78,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/price"
-        android:id="@+id/textView5"/>
+        android:id="@+id/textView5"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"

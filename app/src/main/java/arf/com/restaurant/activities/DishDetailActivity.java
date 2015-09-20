@@ -17,7 +17,7 @@ import arf.com.restaurant.model.Dish;
 public class DishDetailActivity extends AppCompatActivity {
 
 
-    private static final String EXTRA_DISH = "DishDetailActivity.EXTRA_DISH";
+    public static final String EXTRA_DISH = "DishDetailActivity.EXTRA_DISH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class DishDetailActivity extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         if (fm.findFragmentById(R.id.fragment_dish_detail) == null) {
             fm.beginTransaction()
-                    .add(R.id.fragment_dish_detail, new DishDetailFragment())
+                    .add(R.id.fragment_dish_detail, DishDetailFragment.newInstance(dish))
                     .commit();
         }
 
