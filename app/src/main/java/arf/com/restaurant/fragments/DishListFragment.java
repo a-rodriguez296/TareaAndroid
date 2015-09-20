@@ -1,4 +1,4 @@
-package arf.com.restaurant;
+package arf.com.restaurant.fragments;
 
 import android.app.Fragment;
 import android.content.IntentFilter;
@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import arf.com.restaurant.R;
 import arf.com.restaurant.broadcastReceivers.TableBroadcastReceiver;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;

@@ -6,7 +6,9 @@ import android.content.res.Resources;
 import android.os.Handler;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import arf.com.restaurant.R;
 
@@ -132,7 +134,9 @@ public class Restaurant {
 
         for (String dishName :
                 dishes) {
-            Dish mDish = new Dish(dishName, "dishImage", true, 123.123, "");
+
+            ArrayList<String> alergensArray = new ArrayList<String>(Arrays.asList("Cheese", "Pepperoni", "Black Olives"));
+            Dish mDish = new Dish(dishName, "dishImage", alergensArray, 123.123, "");
             mDishes.add(mDish);
         }
     }
@@ -149,8 +153,8 @@ public class Restaurant {
 
     public void addDishToTable(Table table, String name, String image, Boolean containsAlergens, double price, String comments) {
 
-        Dish newDish = new Dish(name, image, containsAlergens, price, comments);
-        table.addDish(newDish);
+        /*Dish newDish = new Dish(name, image, containsAlergens, price, comments);
+        table.addDish(newDish);*/
 
 
         //Mandar el broadcast

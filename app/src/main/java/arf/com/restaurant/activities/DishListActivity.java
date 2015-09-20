@@ -2,21 +2,20 @@ package arf.com.restaurant.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import arf.com.restaurant.DishListFragment;
 import arf.com.restaurant.R;
+import arf.com.restaurant.fragments.AddDishDialogFragment;
+import arf.com.restaurant.fragments.DishListFragment;
 import arf.com.restaurant.model.Dish;
-import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
 
 /**
  * Created by arodriguez on 9/19/15.
  */
-public class DishListActivity extends AppCompatActivity {
+public class DishListActivity extends AppCompatActivity implements AddDishDialogFragment.DishListener {
 
 
     public static final String TABLE_ARGUMENT = "DishListActivity.TABLE_ARGUMENT";
@@ -46,9 +45,17 @@ public class DishListActivity extends AppCompatActivity {
             mAddDishButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Restaurant.getInstance(DishListActivity.this).addDishToTable(selectedTable, "Plato", "image", true, 123.123, "");
+                    //Restaurant.getInstance(DishListActivity.this).addDishToTable(selectedTable, "Plato", "image", true, 123.123, "");
+                    AddDishDialogFragment dialog = new AddDishDialogFragment();
+                    dialog.show(getFragmentManager(), null);
                 }
             });
         }
+    }
+
+    @Override
+    public void dishAdded(Dish dish) {
+        String a = "Alejandro";
+        String b = a + "Pedro";
     }
 }

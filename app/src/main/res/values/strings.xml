@@ -4,4 +4,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="add_dish">Agregar Plato</string>
+    <string name="choose_a_dish">Seleccione un plato</string>
+    <string name="is_Alergic">Poseé Alérgenos?</string>
+    <string name="comments">Comentarios</string>
+    <string name="alergens_list">Lista Alergenos</string>
+    <string name="price">Precio</string>
 </resources>
