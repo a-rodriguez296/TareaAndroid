@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.activities.DishDetailActivity;
+import arf.com.restaurant.activities.DishDetailPagerActivity;
 import arf.com.restaurant.broadcastReceivers.TableBroadcastReceiver;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;
@@ -78,8 +79,9 @@ public class DishListFragment extends Fragment {
 
                     }*/
                     if (true) {
-                        Intent dishDetailIntent = new Intent(getActivity(), DishDetailActivity.class);
-                        dishDetailIntent.putExtra(DishDetailActivity.EXTRA_DISH, adapter.getItem(index));
+                        Intent dishDetailIntent = new Intent(getActivity(), DishDetailPagerActivity.class);
+                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_DISH, adapter.getItem(index));
+                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_PARENT_TABLE, mParentTable);
                         startActivity(dishDetailIntent);
                     }
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.model.Dish;
+import arf.com.restaurant.model.Table;
 
 /**
  * Created by arodriguez on 9/20/15.
@@ -20,17 +21,21 @@ public class DishDetailPagerFragment extends Fragment {
 
     private static final String ARG_DISH = "DishDetailPagerFragment.ARG_DISH";
 
+    private static final String ARG_PARENT_TABLE = "DishDetailPagerFragment.ARG_PARENT_TABLE";
+
     private Dish mDish;
+
+    private Table mParentTable;
 
     private ViewPager mPager;
 
-    public static DishDetailPagerFragment newInstance(Dish dish) {
+    public static DishDetailPagerFragment newInstance(Dish dish, Table parentTable) {
 
         DishDetailPagerFragment fragment = new DishDetailPagerFragment();
 
         Bundle arguments = new Bundle();
         arguments.putSerializable(ARG_DISH, dish);
-
+        arguments.putSerializable(ARG_PARENT_TABLE, parentTable);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -43,6 +48,7 @@ public class DishDetailPagerFragment extends Fragment {
         if (getArguments() != null) {
 
             mDish = (Dish) getArguments().getSerializable(ARG_DISH);
+            mParentTable = (Table) getArguments().getSerializable(ARG_PARENT_TABLE);
         }
     }
 
@@ -52,19 +58,17 @@ public class DishDetailPagerFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_dish_pager, container, false);
         mPager = (ViewPager) root.findViewById(R.id.view_pager);
+        mPager.setAdapter(new DishPagerAdapter(getFragmentManager()));
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
 
-    protected class CityPagerAdapter extends FragmentPagerAdapter {
+    protected class DishPagerAdapter extends FragmentPagerAdapter {
 
 
-        /*private Cities mCities;*/
-
-        public CityPagerAdapter(FragmentManager fm) {
+        public DishPagerAdapter(FragmentManager fm) {
             super(fm);
-            /*mCities = Cities.getInstance(getActivity());*/
         }
 
         @Override
@@ -74,7 +78,7 @@ public class DishDetailPagerFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 1;
+            return mParentTable.getOrderedDishes().size();
         }
 
         /*@Override
