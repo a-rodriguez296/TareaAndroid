@@ -1,8 +1,8 @@
-package arf.com.restaurant;
+package arf.com.restaurant.activities;
 
-import android.content.res.Resources;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import arf.com.restaurant.R;
 import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
 
@@ -37,15 +38,15 @@ public class MainActivity extends AppCompatActivity implements Restaurant.Restau
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
 
+                Table selectedTable = mRestaurant.getTables().get(index);
+
+                Intent dishesIntent = new Intent(MainActivity.this, DishListActivity.class);
+                dishesIntent.putExtra(DishListActivity.TABLE_ARGUMENT, selectedTable);
+                startActivity(dishesIntent);
             }
         });
-
-
-
-
-
     }
 
     @Override

@@ -1,11 +1,10 @@
 package arf.com.restaurant.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Created by arodriguez on 9/19/15.
- */
-public class Table {
+
+public class Table implements Serializable {
 
     private String mTableName;
 
@@ -14,6 +13,7 @@ public class Table {
 
     public Table(String tableName) {
         this.mTableName = tableName;
+        mOrderedDishes = new ArrayList<>();
 
     }
 
@@ -28,5 +28,9 @@ public class Table {
 
     public void setTableName(String tableName) {
         this.mTableName = tableName;
+    }
+
+    public ArrayList<Dish> getOrderedDishes() {
+        return mOrderedDishes;
     }
 }

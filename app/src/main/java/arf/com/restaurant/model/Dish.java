@@ -1,9 +1,9 @@
 package arf.com.restaurant.model;
 
-/**
- * Created by arodriguez on 9/19/15.
- */
-public class Dish {
+import java.io.Serializable;
+
+
+public class Dish implements Serializable {
 
     private String mName;
 
