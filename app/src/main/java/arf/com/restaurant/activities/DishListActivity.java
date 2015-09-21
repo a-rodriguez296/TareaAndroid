@@ -4,6 +4,8 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,7 +26,6 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
     private AddDishDialogFragment mDialog;
 
-    private Button mAddDishButton;
     private Table mTable;
 
 
@@ -47,19 +48,29 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
                     .add(R.id.fragment_dish_list, DishListFragment.newInstance(tableIndex))
                     .commit();
         }
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dish_list_menu, menu);
+        return true;
+    }
 
-        mAddDishButton = (Button) findViewById(R.id.add_dish_button);
-        if (mAddDishButton != null) {
-            mAddDishButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Restaurant.getInstance(DishListActivity.this).addDishToTable(selectedTable, "Plato", "image", true, 123.123, "");
-                    mDialog = new AddDishDialogFragment();
-                    mDialog.show(getFragmentManager(), null);
-                }
-            });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.add_dish) {
+            mDialog = new AddDishDialogFragment();
+            mDialog.show(getFragmentManager(), null);
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

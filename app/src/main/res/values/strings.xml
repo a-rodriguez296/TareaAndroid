@@ -13,4 +13,5 @@
     <string name="alergers_list">Lista Alergenos</string>
     <string name="previous">Anterior</string>
     <string name="after">Siguiente</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
