@@ -2,6 +2,7 @@ package arf.com.restaurant.activities;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -78,5 +79,12 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
         Restaurant.getInstance(this).addDishToTable(mTable, dish, comments);
         mDialog.dismiss();
+
+        Snackbar.make(
+                findViewById(android.R.id.content),
+                "Plato añadido",
+                Snackbar.LENGTH_SHORT)
+                .show();
+
     }
 }
