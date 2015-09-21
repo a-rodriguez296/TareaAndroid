@@ -40,6 +40,10 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         int tableIndex = getIntent().getIntExtra(TABLE_INDEX_ARGUMENT, 0);
         mTable = Restaurant.getInstance(this).getTables().get(tableIndex);
 
@@ -78,6 +82,10 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
         if (id == R.id.add_dish) {
             mDialog = new AddDishDialogFragment();
             mDialog.show(getFragmentManager(), null);
+            return true;
+        }
+        else if (item.getItemId() == android.R.id.home) {
+            finish();
             return true;
         }
 
