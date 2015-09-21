@@ -17,7 +17,7 @@ import arf.com.restaurant.model.Dish;
 public class DishDetailActivity extends AppCompatActivity {
 
 
-    public static final String EXTRA_DISH = "DishDetailActivity.EXTRA_DISH";
+    public static final String EXTRA_DISH = "DishDetailActivity.EXTRA_DISH_INDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,6 @@
 package arf.com.restaurant.fragments;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import arf.com.restaurant.R;
-import arf.com.restaurant.activities.DishDetailActivity;
 import arf.com.restaurant.activities.DishDetailPagerActivity;
 import arf.com.restaurant.broadcastReceivers.TableBroadcastReceiver;
 import arf.com.restaurant.model.Dish;
@@ -29,7 +27,7 @@ import arf.com.restaurant.model.Table;
 public class DishListFragment extends Fragment {
 
 
-    private static final String ARG_SELECTED_TABLE = "DishListFragment.ARG_SELECTED_TABLE";
+    private static final String ARG_SELECTED_TABLE_INDEX = "DishListFragment.ARG_SELECTED_TABLE_INDEX";
 
 
     private Table mParentTable;
@@ -38,12 +36,12 @@ public class DishListFragment extends Fragment {
     private TableBroadcastReceiver mBroadcastReceiver;
 
 
-    public static DishListFragment newInstance(Table selectedTable) {
+    public static DishListFragment newInstance(int selectedTableIndex) {
 
         DishListFragment newInstance = new DishListFragment();
 
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ARG_SELECTED_TABLE, selectedTable);
+        arguments.putInt(ARG_SELECTED_TABLE_INDEX, selectedTableIndex);
 
         newInstance.setArguments(arguments);
         return newInstance;
@@ -58,7 +56,8 @@ public class DishListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dish_list, container, false);
 
         if (getArguments() != null) {
-            mParentTable = (Table) getArguments().getSerializable(ARG_SELECTED_TABLE);
+            final int selectedTableIndex = getArguments().getInt(ARG_SELECTED_TABLE_INDEX);
+            mParentTable = Restaurant.getInstance(getActivity()).getTables().get(selectedTableIndex);
 
             mDishes = mParentTable.getOrderedDishes();
             final ArrayAdapter<Dish> adapter = new ArrayAdapter<Dish>(getActivity(), android.R.layout.simple_list_item_1, mDishes);
@@ -80,8 +79,8 @@ public class DishListFragment extends Fragment {
                     }*/
                     if (true) {
                         Intent dishDetailIntent = new Intent(getActivity(), DishDetailPagerActivity.class);
-                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_DISH, adapter.getItem(index));
-                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_PARENT_TABLE, mParentTable);
+                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_DISH_INDEX, index);
+                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_PARENT_TABLE_INDEX, selectedTableIndex);
                         startActivity(dishDetailIntent);
                     }
 

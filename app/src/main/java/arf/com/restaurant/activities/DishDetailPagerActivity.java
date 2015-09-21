@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import arf.com.restaurant.R;
-import arf.com.restaurant.fragments.DishDetailFragment;
 import arf.com.restaurant.fragments.DishDetailPagerFragment;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Table;
@@ -16,9 +15,9 @@ import arf.com.restaurant.model.Table;
 public class DishDetailPagerActivity extends AppCompatActivity {
 
 
-    public static final String EXTRA_DISH = "DishDetailActivity.EXTRA_DISH";
+    public static final String EXTRA_DISH_INDEX = "DishDetailActivity.EXTRA_DISH_INDEX";
 
-    public static final String EXTRA_PARENT_TABLE = "DishDetailActivity.EXTRA_PARENT_TABLE";
+    public static final String EXTRA_PARENT_TABLE_INDEX = "DishDetailActivity.EXTRA_PARENT_TABLE_INDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +25,13 @@ public class DishDetailPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dish_pager);
 
 
-        Dish dish = (Dish) getIntent().getSerializableExtra(EXTRA_DISH);
-        Table parentTable = (Table) getIntent().getSerializableExtra(EXTRA_PARENT_TABLE);
+        int dishIndex = getIntent().getIntExtra(EXTRA_DISH_INDEX, 0);
+        int parentTableIndex = getIntent().getIntExtra(EXTRA_PARENT_TABLE_INDEX, 0);
 
         FragmentManager fm = getFragmentManager();
         if (fm.findFragmentById(R.id.fragment_dish_pager_detail) == null) {
             fm.beginTransaction()
-                    .add(R.id.fragment_dish_pager_detail, DishDetailPagerFragment.newInstance(dish, parentTable))
+                    .add(R.id.fragment_dish_pager_detail, DishDetailPagerFragment.newInstance(dishIndex, parentTableIndex))
                     .commit();
         }
 

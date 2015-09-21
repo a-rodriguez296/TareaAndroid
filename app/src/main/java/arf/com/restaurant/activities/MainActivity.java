@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements Restaurant.Restau
 
     private Restaurant mRestaurant;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements Restaurant.Restau
                 Table selectedTable = mRestaurant.getTables().get(index);
 
                 Intent dishesIntent = new Intent(MainActivity.this, DishListActivity.class);
-                dishesIntent.putExtra(DishListActivity.TABLE_ARGUMENT, selectedTable);
+                dishesIntent.putExtra(DishListActivity.TABLE_INDEX_ARGUMENT, index);
                 startActivity(dishesIntent);
             }
         });
@@ -74,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements Restaurant.Restau
 
     @Override
     public void dataDidLoad() {
+
         String a = "Alejandro";
     }
 }

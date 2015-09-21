@@ -1,7 +1,6 @@
 package arf.com.restaurant.activities;
 
 import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,7 +19,7 @@ import arf.com.restaurant.model.Table;
 public class DishListActivity extends AppCompatActivity implements AddDishDialogFragment.DishListener {
 
 
-    public static final String TABLE_ARGUMENT = "DishListActivity.TABLE_ARGUMENT";
+    public static final String TABLE_INDEX_ARGUMENT = "DishListActivity.TABLE_INDEX_ARGUMENT";
 
     private AddDishDialogFragment mDialog;
 
@@ -33,13 +32,14 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_list);
 
-        mTable = (Table) getIntent().getSerializableExtra(TABLE_ARGUMENT);
+        int tableIndex = getIntent().getIntExtra(TABLE_INDEX_ARGUMENT, 0);
+        mTable = Restaurant.getInstance(this).getTables().get(tableIndex);
 
 
         FragmentManager fm = getFragmentManager();
         if (fm.findFragmentById(R.id.fragment_dish_list) == null) {
             fm.beginTransaction()
-                    .add(R.id.fragment_dish_list, DishListFragment.newInstance(mTable))
+                    .add(R.id.fragment_dish_list, DishListFragment.newInstance(tableIndex))
                     .commit();
         }
 

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.model.Dish;
+import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
 
 /**
@@ -22,23 +23,23 @@ import arf.com.restaurant.model.Table;
  */
 public class DishDetailPagerFragment extends Fragment {
 
-    private static final String ARG_DISH = "DishDetailPagerFragment.ARG_DISH";
+    private static final String ARG_DISH_INDEX = "DishDetailPagerFragment.ARG_DISH_INDEX";
 
-    private static final String ARG_PARENT_TABLE = "DishDetailPagerFragment.ARG_PARENT_TABLE";
+    private static final String ARG_PARENT_TABLE_INDEX = "DishDetailPagerFragment.ARG_PARENT_TABLE_INDEX";
 
-    private Dish mDish;
+    private int mDishIndex;
 
     private Table mParentTable;
 
     private ViewPager mPager;
 
-    public static DishDetailPagerFragment newInstance(Dish dish, Table parentTable) {
+    public static DishDetailPagerFragment newInstance(int dishIndex, int parentTableIndex) {
 
         DishDetailPagerFragment fragment = new DishDetailPagerFragment();
 
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ARG_DISH, dish);
-        arguments.putSerializable(ARG_PARENT_TABLE, parentTable);
+        arguments.putInt(ARG_DISH_INDEX, dishIndex);
+        arguments.putInt(ARG_PARENT_TABLE_INDEX, parentTableIndex);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -52,8 +53,10 @@ public class DishDetailPagerFragment extends Fragment {
 
         if (getArguments() != null) {
 
-            mDish = (Dish) getArguments().getSerializable(ARG_DISH);
-            mParentTable = (Table) getArguments().getSerializable(ARG_PARENT_TABLE);
+            int tableIndex = getArguments().getInt(ARG_PARENT_TABLE_INDEX);
+            mParentTable = Restaurant.getInstance(getActivity()).getTables().get(tableIndex);
+            mDishIndex = getArguments().getInt(ARG_DISH_INDEX);
+
         }
     }
 
@@ -80,6 +83,8 @@ public class DishDetailPagerFragment extends Fragment {
 
             }
         });
+        mPager.setCurrentItem(mDishIndex);
+
 
         return root;
     }
