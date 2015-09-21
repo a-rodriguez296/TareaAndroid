@@ -11,4 +11,6 @@
     <string name="price">Precio</string>
     <string name="dish_name">Nombre del plato</string>
     <string name="alergers_list">Lista Alergenos</string>
+    <string name="previous">Anterior</string>
+    <string name="after">Siguiente</string>
 </resources>

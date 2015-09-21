@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -45,6 +48,8 @@ public class DishDetailPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         if (getArguments() != null) {
 
             mDish = (Dish) getArguments().getSerializable(ARG_DISH);
@@ -59,10 +64,60 @@ public class DishDetailPagerFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dish_pager, container, false);
         mPager = (ViewPager) root.findViewById(R.id.view_pager);
         mPager.setAdapter(new DishPagerAdapter(getFragmentManager()));
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return root;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.dish_pager, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.previous) {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            return true;
+        } else if (item.getItemId() == R.id.next) {
+            mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        if (mPager != null) {
+
+            MenuItem previous = menu.findItem(R.id.previous);
+            MenuItem next = menu.findItem(R.id.next);
+
+            previous.setEnabled(mPager.getCurrentItem() > 0);
+            next.setEnabled(mPager.getCurrentItem() < mParentTable.getOrderedDishes().size() - 1);
+        }
+    }
 
     protected class DishPagerAdapter extends FragmentPagerAdapter {
 
@@ -73,7 +128,7 @@ public class DishDetailPagerFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            return DishDetailFragment.newInstance(mDish);
+            return DishDetailFragment.newInstance(mParentTable.getOrderedDishes().get(i));
         }
 
         @Override

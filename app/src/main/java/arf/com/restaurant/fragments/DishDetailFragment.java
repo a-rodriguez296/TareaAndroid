@@ -47,6 +47,8 @@ public class DishDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         if (getArguments() != null) {
 
             mDish = (Dish) getArguments().getSerializable(ARG_DISH);
