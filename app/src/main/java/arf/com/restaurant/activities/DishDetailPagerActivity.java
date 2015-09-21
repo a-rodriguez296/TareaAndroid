@@ -3,6 +3,8 @@ package arf.com.restaurant.activities;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.fragments.DishDetailPagerFragment;
@@ -24,6 +26,12 @@ public class DishDetailPagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_pager);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
 
         int dishIndex = getIntent().getIntExtra(EXTRA_DISH_INDEX, 0);
         int parentTableIndex = getIntent().getIntExtra(EXTRA_PARENT_TABLE_INDEX, 0);
@@ -35,5 +43,15 @@ public class DishDetailPagerActivity extends AppCompatActivity {
                     .commit();
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

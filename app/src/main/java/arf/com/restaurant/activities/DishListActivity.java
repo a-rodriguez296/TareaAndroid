@@ -3,6 +3,7 @@ package arf.com.restaurant.activities;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -31,6 +32,10 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dish_list);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         int tableIndex = getIntent().getIntExtra(TABLE_INDEX_ARGUMENT, 0);
         mTable = Restaurant.getInstance(this).getTables().get(tableIndex);
