@@ -2,9 +2,14 @@ package arf.com.restaurant.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +31,9 @@ public class DishDetailPagerFragment extends Fragment {
     private static final String ARG_DISH_INDEX = "DishDetailPagerFragment.ARG_DISH_INDEX";
 
     private static final String ARG_PARENT_TABLE_INDEX = "DishDetailPagerFragment.ARG_PARENT_TABLE_INDEX";
+
+
+    private DishBroadcastReceiver mBroadcastReceiver;
 
     private int mDishIndex;
 
@@ -85,10 +93,18 @@ public class DishDetailPagerFragment extends Fragment {
         });
         mPager.setCurrentItem(mDishIndex);
 
+        mBroadcastReceiver = new DishBroadcastReceiver(mPager.getAdapter());
+        getActivity().registerReceiver(mBroadcastReceiver,
+                new IntentFilter(Restaurant.TABLE_CHANGED_ACTION));
 
         return root;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(mBroadcastReceiver);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -146,4 +162,19 @@ public class DishDetailPagerFragment extends Fragment {
             return "";
         }*/
     }
+
+    private class DishBroadcastReceiver extends BroadcastReceiver {
+
+        private PagerAdapter mPagerAdapter;
+
+        public DishBroadcastReceiver(PagerAdapter pagerAdapter) {
+            mPagerAdapter = pagerAdapter;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
 }

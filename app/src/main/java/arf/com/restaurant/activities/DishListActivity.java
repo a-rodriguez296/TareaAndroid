@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.fragments.AddDishDialogFragment;
+import arf.com.restaurant.fragments.DishDetailPagerFragment;
 import arf.com.restaurant.fragments.DishListFragment;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;
@@ -48,6 +49,15 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
             fm.beginTransaction()
                     .add(R.id.fragment_dish_list, DishListFragment.newInstance(tableIndex))
                     .commit();
+        }
+
+        if (findViewById(R.id.fragment_dish_detail) != null) {
+
+            if (fm.findFragmentById(R.id.fragment_dish_detail) == null) {
+                fm.beginTransaction()
+                        .add(R.id.fragment_dish_detail, DishDetailPagerFragment.newInstance(0, tableIndex))
+                        .commit();
+            }
         }
     }
 
