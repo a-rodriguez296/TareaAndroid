@@ -4,13 +4,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.preference.PreferenceActivity;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import arf.com.restaurant.R;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by arodriguez on 9/19/15.
@@ -81,29 +93,56 @@ public class Restaurant {
 
 
 
-/*        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.google.com", new AsyncHttpResponseHandler() {
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.mocky.io/v2/560320de3a8c44bf039fcb06", new JsonHttpResponseHandler() {
 
-            @Override
-            public void onStart() {
-                // called before request is started
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // If the response is JSONObject instead of expected JSONArray
+
+                JSONArray dishes = new JSONArray();
+                try {
+                    dishes = response.getJSONArray("dishes");
+
+
+                    for (int i = 0; i < dishes.length(); i++) {
+                        JSONObject c;
+                        try {
+                            c = dishes.getJSONObject(i);
+                            String name = c.getString("name");
+                            String icon = c.getString("icon");
+                            ArrayList<String> allergens = (ArrayList<String>) Arrays.asList(c.getString("allergens").split(","));
+                            double price = c.getDouble("price");
+
+
+
+                            Dish dish = new Dish(name,icon,allergens,1.0,"");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
+            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
+                // Pull out the first event on the public timeline
+
+
+                // Do something with the response
+                System.out.println("Hola");
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });*/
+        });
 
 
     }
