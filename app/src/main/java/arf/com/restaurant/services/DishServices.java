@@ -1,5 +1,7 @@
 package arf.com.restaurant.services;
 
+import android.os.Handler;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -34,7 +36,7 @@ public class DishServices {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
 
-                ArrayList<Dish> responseArray = new ArrayList<Dish>();
+                final ArrayList<Dish> responseArray = new ArrayList<Dish>();
                 JSONArray dishes = new JSONArray();
                 try {
                     dishes = response.getJSONArray("dishes");
@@ -64,7 +66,18 @@ public class DishServices {
                     }
 
                     if (mListener != null) {
-                        mListener.didDownloadDishes(responseArray);
+
+
+                        Handler delayHandler = new Handler();
+                        delayHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mListener.didDownloadDishes(responseArray);
+                            }
+                        }, 3000);
+
+
+
                     }
 
                 } catch (JSONException e) {

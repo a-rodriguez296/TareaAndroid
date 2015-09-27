@@ -82,19 +82,17 @@ public class Restaurant implements DishServices.DishServiceListener {
         dishServices.requestDishes();
 
 
-
-
-        Handler delayHandler = new Handler();
-        delayHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                if (mModelListener.get() != null) {
-                    mModelListener.get().dataDidLoad();
-                }
-
-            }
-        }, 2500);
+//        Handler delayHandler = new Handler();
+//        delayHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                if (mModelListener.get() != null) {
+//                    mModelListener.get().dataDidLoad();
+//                }
+//
+//            }
+//        }, 2500);
 
 
 
@@ -169,9 +167,11 @@ public class Restaurant implements DishServices.DishServiceListener {
 
     @Override
     public void didDownloadDishes(ArrayList<Dish> dishes) {
-        for (Dish dish :
-                dishes) {
-            dish.getName();
+
+        mDishes = dishes;
+
+        if (mModelListener != null) {
+            mModelListener.get().dataDidLoad();
         }
     }
 
