@@ -56,7 +56,6 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
         }
 
         if (findViewById(R.id.fragment_dish_detail) != null) {
-
             if (fm.findFragmentById(R.id.fragment_dish_detail) == null) {
                 fm.beginTransaction()
                         .add(R.id.fragment_dish_detail, DishDetailPagerFragment.newInstance(0, tableIndex))

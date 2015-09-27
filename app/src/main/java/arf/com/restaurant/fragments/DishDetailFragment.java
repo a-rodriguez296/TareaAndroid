@@ -1,6 +1,7 @@
 package arf.com.restaurant.fragments;
 
 import android.app.Fragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -73,10 +74,15 @@ public class DishDetailFragment extends Fragment {
 
 
         if (mDish != null) {
+
+            int imageResource = getResources().getIdentifier("lasagna", "drawable", getActivity().getPackageName());
+            Drawable image = getResources().getDrawable(imageResource);
+
+            mDishImage.setImageDrawable(image);
             mTextDishName.setText(mDish.getName());
             mTextAlergens.setText(mDish.getNormalizedAlergens());
             mTextComments.setText(mDish.getComments());
-            mTextPrice.setText("" + mDish.getPrice());
+            mTextPrice.setText("" + mDish.getPrice() + " €");
         }
 
 

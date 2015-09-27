@@ -31,7 +31,7 @@ public class DishServices {
     public void requestDishes() {
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.mocky.io/v2/560856369665b9880569bac8", new JsonHttpResponseHandler() {
+        client.get("http://www.mocky.io/v2/56086c3e9665b9320869badf", new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray
@@ -57,7 +57,7 @@ public class DishServices {
                                 stAllergensArray.add(allergen);
                             }
                             double price = c.getDouble("price");
-                            Dish dish = new Dish(name, icon, stAllergensArray, 1.0, "");
+                            Dish dish = new Dish(name, icon, stAllergensArray, price, "");
                             responseArray.add(dish);
 
                         } catch (JSONException e) {
