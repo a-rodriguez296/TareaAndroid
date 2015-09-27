@@ -31,7 +31,7 @@ public class DishServices {
     public void requestDishes() {
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.mocky.io/v2/56086c3e9665b9320869badf", new JsonHttpResponseHandler() {
+        client.get("http://www.mocky.io/v2/560875fb9665b95c0969bae2", new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // If the response is JSONObject instead of expected JSONArray

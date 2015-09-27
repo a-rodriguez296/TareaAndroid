@@ -177,4 +177,8 @@ public class DishDetailPagerFragment extends Fragment {
         }
     }
 
+    public void goToDishWithIndex(int index) {
+        mPager.setCurrentItem(index);
+    }
+
 }

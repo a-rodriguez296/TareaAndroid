@@ -1,6 +1,9 @@
 package arf.com.restaurant.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -32,6 +35,8 @@ public class DishListFragment extends Fragment {
 
     private Table mParentTable;
     private ArrayList<Dish> mDishes;
+
+    private TableClickListener mTableListener;
 
     private TableBroadcastReceiver mBroadcastReceiver;
 
@@ -66,23 +71,10 @@ public class DishListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
 
+                    if (mTableListener != null) {
 
-                    /*if (R.id.dish_detail != null){
-
-                        //Caso split screen
-
-                        FragmentManager fm = getFragmentManager();
-                        DishDetailFragment detailFragment = fm.findFragmentById(R.id.dish_detail);
-                        detailFragment.goToDish(index);
-
-                    }*/
-                    if (true) {
-                        Intent dishDetailIntent = new Intent(getActivity(), DishDetailPagerActivity.class);
-                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_DISH_INDEX, index);
-                        dishDetailIntent.putExtra(DishDetailPagerActivity.EXTRA_PARENT_TABLE_INDEX, selectedTableIndex);
-                        startActivity(dishDetailIntent);
+                        mTableListener.didSelectItemAtIndex(index);
                     }
-
 
                 }
             });
@@ -98,9 +90,33 @@ public class DishListFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mTableListener = (TableClickListener) getActivity();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mTableListener = (TableClickListener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mTableListener = null;
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         getActivity().unregisterReceiver(mBroadcastReceiver);
 
+    }
+
+
+    public interface TableClickListener {
+
+        void didSelectItemAtIndex(int index);
     }
 }

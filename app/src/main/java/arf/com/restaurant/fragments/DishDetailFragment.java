@@ -75,7 +75,7 @@ public class DishDetailFragment extends Fragment {
 
         if (mDish != null) {
 
-            int imageResource = getResources().getIdentifier("lasagna", "drawable", getActivity().getPackageName());
+            int imageResource = getResources().getIdentifier(mDish.getImage(), "drawable", getActivity().getPackageName());
             Drawable image = getResources().getDrawable(imageResource);
 
             mDishImage.setImageDrawable(image);
