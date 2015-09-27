@@ -14,4 +14,6 @@
     <string name="previous">Anterior</string>
     <string name="after">Siguiente</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_loading">LoadingActivity</string>
+    <string name="loading">Cargando</string>
 </resources>

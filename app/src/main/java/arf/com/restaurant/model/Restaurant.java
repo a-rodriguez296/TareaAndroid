@@ -22,12 +22,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import arf.com.restaurant.R;
+import arf.com.restaurant.services.DishServices;
 import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by arodriguez on 9/19/15.
  */
-public class Restaurant {
+public class Restaurant implements DishServices.DishServiceListener {
 
     private static final String SYNCHRONIZED_KEY = "Restaurant.SYNCHRONIZED_KEY";
 
@@ -76,7 +77,11 @@ public class Restaurant {
         initTables(context);
 
         //Platos
-        initDishes(context);
+        //initDishes(context);
+        DishServices dishServices = new DishServices(this);
+        dishServices.requestDishes();
+
+
 
 
         Handler delayHandler = new Handler();
@@ -91,58 +96,6 @@ public class Restaurant {
             }
         }, 2500);
 
-
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.mocky.io/v2/560320de3a8c44bf039fcb06", new JsonHttpResponseHandler() {
-
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // If the response is JSONObject instead of expected JSONArray
-
-                JSONArray dishes = new JSONArray();
-                try {
-                    dishes = response.getJSONArray("dishes");
-
-
-                    for (int i = 0; i < dishes.length(); i++) {
-                        JSONObject c;
-                        try {
-                            c = dishes.getJSONObject(i);
-                            String name = c.getString("name");
-                            String icon = c.getString("icon");
-                            ArrayList<String> allergens = (ArrayList<String>) Arrays.asList(c.getString("allergens").split(","));
-                            double price = c.getDouble("price");
-
-
-
-                            Dish dish = new Dish(name,icon,allergens,1.0,"");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
-
-
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
-                // Pull out the first event on the public timeline
-
-
-                // Do something with the response
-                System.out.println("Hola");
-            }
-
-        });
 
 
     }
@@ -212,6 +165,14 @@ public class Restaurant {
             mContext.get().sendBroadcast(broadcast);
         }
 
+    }
+
+    @Override
+    public void didDownloadDishes(ArrayList<Dish> dishes) {
+        for (Dish dish :
+                dishes) {
+            dish.getName();
+        }
     }
 
 
