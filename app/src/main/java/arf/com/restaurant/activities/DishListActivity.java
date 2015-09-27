@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import arf.com.restaurant.R;
 import arf.com.restaurant.fragments.AddDishDialogFragment;
 import arf.com.restaurant.fragments.DishDetailPagerFragment;
 import arf.com.restaurant.fragments.DishListFragment;
+import arf.com.restaurant.fragments.GetTotalDialogFragment;
 import arf.com.restaurant.model.Dish;
 import arf.com.restaurant.model.Restaurant;
 import arf.com.restaurant.model.Table;
@@ -26,7 +25,7 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
     public static final String TABLE_INDEX_ARGUMENT = "DishListActivity.TABLE_INDEX_ARGUMENT";
 
-    private AddDishDialogFragment mDialog;
+    private AddDishDialogFragment mAddDishDialog;
 
     private Table mTable;
 
@@ -79,11 +78,15 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.add_dish) {
-            mDialog = new AddDishDialogFragment();
-            mDialog.show(getFragmentManager(), null);
+            mAddDishDialog = new AddDishDialogFragment();
+            mAddDishDialog.show(getFragmentManager(), null);
             return true;
-        }
-        else if (item.getItemId() == android.R.id.home) {
+        } else if (id == R.id.get_check) {
+            GetTotalDialogFragment mGetTotalDialog = GetTotalDialogFragment.newInstance(getCheck());
+            mGetTotalDialog.show(getFragmentManager(), null);
+            return true;
+
+        } else if (id == android.R.id.home) {
             finish();
             return true;
         }
@@ -104,7 +107,7 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
     public void dishAdded(Dish dish, String comments) {
 
         Restaurant.getInstance(this).addDishToTable(mTable, dish, comments);
-        mDialog.dismiss();
+        mAddDishDialog.dismiss();
 
         invalidateOptionsMenu();
 
@@ -114,5 +117,17 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
                 Snackbar.LENGTH_SHORT)
                 .show();
 
+    }
+
+
+    public String getCheck() {
+
+        double total = 0;
+
+        for (Dish orderedDish :
+                mTable.getOrderedDishes()) {
+            total += orderedDish.getPrice();
+        }
+        return "" + total;
     }
 }
