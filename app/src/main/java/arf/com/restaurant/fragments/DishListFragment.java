@@ -47,7 +47,6 @@ public class DishListFragment extends Fragment {
         return newInstance;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

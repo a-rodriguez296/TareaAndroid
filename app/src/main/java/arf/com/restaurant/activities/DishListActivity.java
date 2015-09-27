@@ -92,10 +92,21 @@ public class DishListActivity extends AppCompatActivity implements AddDishDialog
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem mTotal = menu.findItem(R.id.get_check);
+        mTotal.setEnabled(mTable.getOrderedDishes().size() > 0);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public void dishAdded(Dish dish, String comments) {
 
         Restaurant.getInstance(this).addDishToTable(mTable, dish, comments);
         mDialog.dismiss();
+
+        invalidateOptionsMenu();
 
         Snackbar.make(
                 findViewById(android.R.id.content),

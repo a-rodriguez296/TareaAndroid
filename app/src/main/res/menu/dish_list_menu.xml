@@ -2,9 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:id="@+id/add_dish"
         android:title="@string/add_dish"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/get_check"
+        android:title="@string/total"
         app:showAsAction="ifRoom"/>
 
 
