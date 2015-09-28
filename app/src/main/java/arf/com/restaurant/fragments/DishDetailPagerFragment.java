@@ -156,11 +156,6 @@ public class DishDetailPagerFragment extends Fragment {
         public int getCount() {
             return mParentTable.getOrderedDishes().size();
         }
-
-        /*@Override
-        public CharSequence getPageTitle(int position) {
-            return "";
-        }*/
     }
 
     private class DishBroadcastReceiver extends BroadcastReceiver {
